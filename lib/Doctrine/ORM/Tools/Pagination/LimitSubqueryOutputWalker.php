@@ -160,11 +160,8 @@ class LimitSubqueryOutputWalker extends SqlWalker
         $sql = sprintf('SELECT DISTINCT %s FROM (%s) dctrn_result',
             implode(', ', $sqlIdentifier), $innerSql);
 
-        if ($this->platform instanceof PostgreSqlPlatform ||
-            $this->platform instanceof OraclePlatform) {
-            //http://www.doctrine-project.org/jira/browse/DDC-1958
-            $this->preserveSqlOrdering($AST, $sqlIdentifier, $innerSql, $sql);
-        }
+        //http://www.doctrine-project.org/jira/browse/DDC-1958
+        $this->preserveSqlOrdering($AST, $sqlIdentifier, $innerSql, $sql);
 
         // Apply the limit and offset.
         $sql = $this->platform->modifyLimitQuery(
